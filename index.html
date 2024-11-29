@@ -3,46 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MathPunch Offline</title>
-    <link rel="manifest" href="manifest.json">
+    <title>MathPunch</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-            background-color: #1a1a1a;
-            color: white;
-        }
-        h1 {
-            margin: 20px 0;
-        }
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            border: 2px solid white;
-            background: none;
-            color: white;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
+        /* Your existing styles */
     </style>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker registered:', reg))
-                    .catch(err => console.error('Service Worker registration failed:', err));
-            });
-        }
-    </script>
 </head>
 <body>
-    <h1>MathPunch Offline</h1>
-    <p>This site works offline!</p>
-    <button onclick="alert('Enjoy offline mode!')">Test Button</button>
+    <h1>Welcome To MathPunch V3</h1> <!-- Updated header -->
+
+    <!-- Offline Mode Toggle Button -->
+    <button id="offlineModeToggle" onclick="toggleOfflineMode()">Offline Mode</button>
+
+    <div class="button-container">
+        <!-- All your game and section buttons -->
+        <button onclick="window.location.href='https://mathpunch.github.io/kitty/';">Stickmanhook</button>
+        <button onclick="window.location.href='https://mathpunch.github.io/dog/';">Super Mario 64</button>
+        <button onclick="window.location.href='https://mathpunch.github.io/bear/';">Tiny Fishing</button>
+        <!-- Include all other buttons and sections here -->
+    </div>
+
+    <footer>
+        Made By Ozzy
+    </footer>
+
+    <script>
+        // Function to toggle Offline Mode
+        function toggleOfflineMode() {
+            const button = document.getElementById('offlineModeToggle');
+            if (navigator.serviceWorker.controller) {
+                // Disable offline mode
+                navigator.serviceWorker.getRegistration().then(registration => {
+                    registration.unregister().then(() => {
+                        button.textContent = 'Offline Mode';
+                        alert('Offline mode disabled. Reload the page.');
+                    });
+                });
+            } else {
+                // Enable offline mode
+                navigator.serviceWorker.register('/sw.js').then(() => {
+                    button.textContent = 'Disable Offline Mode';
+                    alert('Offline mode enabled. You can now access the site offline.');
+                });
+            }
+        }
+    </script>
 </body>
 </html>
